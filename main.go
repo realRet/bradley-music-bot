@@ -42,7 +42,7 @@ func main() {
 }
 
 func ready(s *discordgo.Session, event *discordgo.Ready) {
-	s.UpdateGameStatus(0, "!play <youtube link>")
+	s.UpdateGameStatus(0, "/verzoek <youtube link>")
 }
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
