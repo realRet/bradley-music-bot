@@ -25,7 +25,7 @@ jobs:
           context: .
           push: true
           tags: |
-            realret/bradley-bot:latest
-            realret/bradley-bot:${{ github.sha }}
+            retn/bradley-bot:latest
+            retn/bradley-bot:${{ github.sha }}
 
 
