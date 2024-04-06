@@ -7,6 +7,10 @@ WORKDIR /app
 # Copy the Go application source code into the container
 COPY . .
 
+# Install ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
+
+
 # Build the Go binary
 RUN go build -o music-bot
 
