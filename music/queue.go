@@ -119,7 +119,7 @@ func (q *QueueManager) PlayQueue(session *discordgo.Session) {
 			q.cancelSong()
 		case <-q.currentSongCtx.Done():
 			fmt.Println("Skipped song")
-			session.UpdateGameStatus(0, "U vraagt wij draaien")
+			session.UpdateGameStatus(0, "/verzoek <youtube link>")
 			q.CurrentlyPlaying = false
 		}
 	}

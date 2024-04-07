@@ -44,7 +44,11 @@ func main() {
 }
 
 func ready(s *discordgo.Session, event *discordgo.Ready) {
+<<<<<<< HEAD
 	s.UpdateGameStatus(0, "U vraagt wij draaien")
+=======
+	s.UpdateGameStatus(0, "/verzoek <youtube link>")
+>>>>>>> a026f54679e5d0bfdd9577666a2f251ea1d3de37
 }
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
