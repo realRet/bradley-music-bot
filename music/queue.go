@@ -91,7 +91,7 @@ func (q *QueueManager) Skip() {
 	q.skipChan <- true
 }
 
-func (q *QueueManager) PlayQueue() {
+func (q *QueueManager) PlayQueue(session *discordgo.Session) {
 	for !q.IsEmpty() {
 		if !q.CurrentlyPlaying {
 			song := q.NextSong()
@@ -105,6 +105,7 @@ func (q *QueueManager) PlayQueue() {
 			go func(ctx context.Context, cancelFunc context.CancelFunc) {
 				defer cancelFunc()
 				q.CurrentlyPlaying = true
+				session.UpdateGameStatus(0, song.Title)
 				err := playSong(ctx, song, q.voiceConnection, q.youtubeClient)
 				if err != nil {
 					fmt.Println("Error playing song:", err)
@@ -118,6 +119,7 @@ func (q *QueueManager) PlayQueue() {
 			q.cancelSong()
 		case <-q.currentSongCtx.Done():
 			fmt.Println("Skipped song")
+			session.UpdateGameStatus(0, "U vraagt wij draaien")
 			q.CurrentlyPlaying = false
 		}
 	}
@@ -129,8 +131,10 @@ func playSong(ctx context.Context, video *youtube.Video, voiceConnection *discor
 	options.RawOutput = true
 	options.Bitrate = 96
 	options.Application = "lowdelay"
+	options.CompressionLevel = 0
+	options.PacketLoss = 10
 
-	format := video.Formats.Quality("medium").WithAudioChannels()
+	format := video.Formats.WithAudioChannels()
 	fmt.Println("Format: ", format)
 	downloadURL, err := client.GetStreamURL(video, &format[0])
 	if err != nil {

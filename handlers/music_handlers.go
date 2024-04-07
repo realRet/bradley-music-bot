@@ -73,7 +73,7 @@ func PlayCommand(h *Handler, s *discordgo.Session, m commandState, args ...strin
 
 	for _, vs := range g.VoiceStates {
 		if vs.UserID == m.AuthorID {
-			err = playSound(h, s, g.ID, vs.ChannelID)
+			err = playSong(h, s, g.ID, vs.ChannelID)
 			if err != nil {
 				fmt.Println("Error playing sound:", err)
 			}
@@ -83,7 +83,7 @@ func PlayCommand(h *Handler, s *discordgo.Session, m commandState, args ...strin
 	}
 }
 
-func playSound(h *Handler, s *discordgo.Session, guildID, channelID string) (err error) {
+func playSong(h *Handler, s *discordgo.Session, guildID, channelID string) (err error) {
 	vc, err := s.ChannelVoiceJoin(guildID, channelID, false, true)
 	if err != nil {
 		return err
@@ -93,7 +93,7 @@ func playSound(h *Handler, s *discordgo.Session, guildID, channelID string) (err
 	vc.Speaking(true)
 
 	h.queueManager.SetVoiceConnection(vc)
-	h.queueManager.PlayQueue()
+	h.queueManager.PlayQueue(s)
 
 	vc.Speaking(false)
 
@@ -114,6 +114,7 @@ func SkipCommand(h *Handler, s *discordgo.Session, m commandState, args ...strin
 
 func ClearCommand(h *Handler, s *discordgo.Session, m commandState, args ...string) {
 	h.queueManager.ClearQueue()
+	h.queueManager.Skip()
 	_, err := s.ChannelMessageSend(m.ChannelID, "Ik heb de queue geleegd")
 	if err != nil {
 		log.Fatalf("Error sending message: %s", err)

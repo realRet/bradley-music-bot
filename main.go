@@ -31,9 +31,11 @@ func main() {
 		log.Fatalf("Error opening connection to Discord: %s", err)
 	}
 
+	handler.SetDiscordSession(discord)
+
 	token := os.Getenv("GUILD_ID")
 
-	handler.CreateCommands(discord, token)
+	handler.CreateCommands(token)
 
 	sc := make(chan os.Signal, 1)
 	<-sc
@@ -42,13 +44,13 @@ func main() {
 }
 
 func ready(s *discordgo.Session, event *discordgo.Ready) {
-	s.UpdateGameStatus(0, "!play <youtube link>")
+	s.UpdateGameStatus(0, "U vraagt wij draaien")
 }
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-	handler.HandleTextCommand(s, m)
+	handler.HandleTextCommand(m)
 }
 
 func interactionCreate(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	handler.HandleSlashCommand(s, i)
+	handler.HandleSlashCommand(i)
 }
