@@ -6,8 +6,8 @@ import (
 	"io"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/jonas747/dca"
 	"github.com/kkdai/youtube/v2"
+	"github.com/ybaac/dca"
 )
 
 type QueueManager struct {

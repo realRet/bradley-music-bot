@@ -5,8 +5,8 @@ go 1.22.1
 require (
 	github.com/bwmarrin/discordgo v0.28.1
 	github.com/joho/godotenv v1.5.1
-	github.com/jonas747/dca v0.0.0-20210930103944-155f5e5f0cc7
 	github.com/kkdai/youtube/v2 v2.10.1
+	github.com/ybaac/dca v1.0.1
 )
 
 require (
